@@ -2,7 +2,7 @@ from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,s
 import mysql.connector
 app=Flask(__name__)
 app.secret_key = "mysecretkey123"
-mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
+mydb=mysql.connector.connect(host='your-render-db-host',user='root',password='admin',database='mini_crm')
 cursor=mydb.cursor(buffered=True)
 @app.route('/')
 def welcome():
@@ -188,5 +188,6 @@ def logout():
            flash('First login to Logout')
            return redirect(url_for('admin_login'))
     return render_template('logout.html')
-if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+if _name_ == "_main_":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
