@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Lead</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container{
+            background: white;
+            padding: 30px;
+            width: 450px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        label{
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, textarea, select{
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea{
+            resize: vertical;
+        }
+
+        button{
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background-color: #2980b9;
+        }
+
+        .back-link{
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        .back-link:hover{
+            color: #000;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="form-container">
+
+<h2>Edit Lead</h2>
+
+<form method="POST">
+
+    <label>Name:</label>
+    <input type="text" name="name" value="{{ lead[1] }}" required>
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ lead[2] }}" required>
+
+    <label>Phone:</label>
+    <input type="text" name="phone" value="{{ lead[3] }}">
+
+    <label>Message:</label>
+    <textarea name="message">{{ lead[4] }}</textarea>
+
+    <label>Source:</label>
+    <input type="text" name="source" value="{{ lead[5] }}">
+    
+    <label>Status:</label>
+    <select name="status">
+        <option value="new" {% if lead[6] == 'new' %}selected{% endif %}>New</option>
+        <option value="contacted" {% if lead[6] == 'contacted' %}selected{% endif %}>Contacted</option>
+        <option value="converted" {% if lead[6] == 'converted' %}selected{% endif %}>Converted</option>
+    </select>
+
+    <label>Notes:</label>
+    <textarea name="notes">{{ lead[7] }}</textarea>
+
+    <label>Follow Up Date:</label>
+    <input type="date" name="follow_up" value="{{ lead[8].strftime('%Y-%m-%d') if lead[8] else '' }}">
+
+    <button type="submit">Update Lead</button>
+
+</form>
+
+<a href="/admin_dashboard" class="back-link">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
