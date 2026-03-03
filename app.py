@@ -3,11 +3,13 @@ import mysql.connector
 app=Flask(__name__)
 import os
 app.secret_key = os.environ.get("VIRAL_GENERATOR_SECRET")
-#mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
-#cursor=mydb.cursor(buffered=True)
 import os
 import mysql.connector
+from urllib.parse import urlparse
 
+DATABASE_URL = os.environ.get("MYSQL_PUBLIC_URL")
+
+url = urlparse(DATABASE_URL)
 mydb = mysql.connector.connect(
     host=os.environ.get("MYSQLHOST"),        # Railway host
     user=os.environ.get("MYSQLUSER"),        # Railway username
