@@ -1,7 +1,8 @@
 from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,session
 import mysql.connector
 app=Flask(__name__)
-app.secret_key = "mysecretkey123"
+import os
+app.secret_key = os.environ.get("VIRAL_GENERATOR_SECRET")
 #mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
 #cursor=mydb.cursor(buffered=True)
 import os
