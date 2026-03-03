@@ -2,7 +2,6 @@ from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,s
 import mysql.connector
 app=Flask(__name__)
 app.secret_key = "mysecretkey123"
-<<<<<<< HEAD
 #mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
 #cursor=mydb.cursor(buffered=True)
 import os
@@ -17,10 +16,7 @@ mydb = mysql.connector.connect(
 )
 
 cursor = mydb.cursor(buffered=True)
-=======
-mydb=mysql.connector.connect(host='your-render-db-host',user='root',password='admin',database='mini_crm')
-cursor=mydb.cursor(buffered=True)
->>>>>>> 0c4f8d444dd0bdd9fbcb47db3d20e5edb6e1c0e7
+
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
