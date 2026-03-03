@@ -10,12 +10,13 @@ from urllib.parse import urlparse
 DATABASE_URL = os.environ.get("MYSQL_PUBLIC_URL")
 
 url = urlparse(DATABASE_URL)
+
 mydb = mysql.connector.connect(
-    host=os.environ.get("MYSQLHOST"),        # Railway host
-    user=os.environ.get("MYSQLUSER"),        # Railway username
-    password=os.environ.get("MYSQLPASSWORD"),# Railway password
-    database=os.environ.get("MYSQLDATABASE"),# Railway database name
-    port=int(os.environ.get("MYSQLPORT", 3306)) # Railway port
+    host=url.hostname,
+    user=url.username,
+    password=url.password,
+    database=url.path[1:],
+    port=url.port
 )
 
 cursor = mydb.cursor(buffered=True)
