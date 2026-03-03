@@ -16,7 +16,7 @@ mydb = mysql.connector.connect(
 )
 
 cursor = mydb.cursor(buffered=True)
-
+viral_secret = os.environ.get("VIRAL_GENERATOR_SECRET")
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
@@ -201,6 +201,6 @@ def logout():
            flash('First login to Logout')
            return redirect(url_for('admin_login'))
     return render_template('logout.html')
-if _name_ == "_main_":
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
