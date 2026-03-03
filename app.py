@@ -2,8 +2,20 @@ from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,s
 import mysql.connector
 app=Flask(__name__)
 app.secret_key = "mysecretkey123"
-mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
-cursor=mydb.cursor(buffered=True)
+#mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm')
+#cursor=mydb.cursor(buffered=True)
+import os
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host=os.environ.get("MYSQLHOST"),        # Railway host
+    user=os.environ.get("MYSQLUSER"),        # Railway username
+    password=os.environ.get("MYSQLPASSWORD"),# Railway password
+    database=os.environ.get("MYSQLDATABASE"),# Railway database name
+    port=int(os.environ.get("MYSQLPORT", 3306)) # Railway port
+)
+
+cursor = mydb.cursor(buffered=True)
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
