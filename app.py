@@ -1,26 +1,18 @@
 from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,session
 import mysql.connector
+import os
 app=Flask(__name__)
-import os
 app.secret_key = os.environ.get("VIRAL_GENERATOR_SECRET")
-import os
-import mysql.connector
-from urllib.parse import urlparse
 
-DATABASE_URL = os.environ.get("MYSQL_PUBLIC_URL")
+def get_db_connection():
+    return mysql.connector.connect(
+        host=os.environ.get("MYSQLHOST"),
+        user=os.environ.get("MYSQLUSER"),
+        password=os.environ.get("MYSQLPASSWORD"),
+        database=os.environ.get("MYSQLDATABASE"),
+        port=int(os.environ.get("MYSQLPORT", 3306))
+    )
 
-url = urlparse(DATABASE_URL)
-
-mydb = mysql.connector.connect(
-    host=url.hostname,
-    user=url.username,
-    password=url.password,
-    database=url.path[1:],
-    port=url.port
-)
-
-cursor = mydb.cursor(buffered=True)
-viral_secret = os.environ.get("VIRAL_GENERATOR_SECRET")
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
