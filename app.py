@@ -30,10 +30,15 @@ def register():
             name=request.form['username']
             email=request.form['email']
             password=request.form['password']
+            conn = get_db_connection()
+            cursor = conn.cursor()
             sql="insert into admins (name,email,password) values (%s,%s,%s)"
             values=(name,email,password)
             cursor.execute(sql,values)
-            mydb.commit()
+            conn.commit()
+            cursor.close()
+            conn.close()
+
             flash('registered successfully')
             return redirect(url_for('admin_login'))
         except Exception as e:
@@ -44,7 +49,8 @@ def admin_login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
+        conn = get_db_connection()
+        cursor = conn.cursor()
         sql = "SELECT * FROM admins WHERE email=%s AND password=%s"
         cursor.execute(sql, (email, password))
         admin = cursor.fetchone()
@@ -65,10 +71,12 @@ def user_register():
             name=request.form['username']
             email=request.form['email']
             password=request.form['password']
+            conn = get_db_connection()
+            cursor = conn.cursor()
             sql="insert into users (name,email,password) values (%s,%s,%s)"
             values=(name,email,password)
             cursor.execute(sql,values)
-            mydb.commit()
+            conn.commit()
             flash('registered successfully')
             return redirect(url_for('user_login'))
         except Exception as e:
@@ -79,7 +87,8 @@ def user_login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
+        conn = get_db_connection()
+        cursor = conn.cursor()
         sql = "SELECT * FROM users WHERE email=%s AND password=%s"
         cursor.execute(sql, (email, password))
         user = cursor.fetchone()
@@ -106,11 +115,13 @@ def contract():
             phone=request.form['phone']
             source=request.form['source']
             message=request.form['message']
+            conn = get_db_connection()
+            cursor = conn.cursor()
             sql="insert into leads (name,email,phone,message,source) values (%s,%s,%s,%s,%s)"
             values=(name,email,phone,message,source)
             cursor.execute(sql,values)
             #user=cursor.fetchone()
-            mydb.commit()
+            conn.commit()
             flash('Data submitted successfully')
             
             
@@ -122,8 +133,10 @@ def admin_dashboard():
     if 'admin' not in session:
         flash('Please login first')
         return redirect(url_for('admin_login'))
+    conn = get_db_connection()
+    cursor = conn.cursor()
     search = request.args.get('search')
-    cursor=mydb.cursor()
+    cursor=conn.cursor()
     if search:
         query = "SELECT * FROM leads WHERE name LIKE %s ORDER BY id DESC"
         cursor.execute(query, ('%' + search + '%',))
@@ -154,14 +167,18 @@ def admin_dashboard():
         converted=converted)
 @app.route('/delete/<int:id>')
 def delete_lead(id):
-    cursor=mydb.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor=conn.cursor()
     cursor.execute('delete from leads where id=%s',(id,))
-    mydb.commit()
+    conn.commit()
     cursor.close()
     return redirect(url_for('admin_dashboard')) 
 @app.route('/edit/<int:id>',methods=['GET','POST'])
 def edit_lead(id):
-    cursor=mydb.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor=conn.cursor()
     if request.method=='POST':
         name=request.form['name']
         email=request.form['email']
@@ -180,7 +197,7 @@ def edit_lead(id):
     status=%s,
     notes=%s,
     followUpDate=%s where id=%s""",(name,email,phon,message,source,status,notes,follow_up,id))
-        mydb.commit()
+        conn.commit()
         cursor.close()
         return redirect(url_for('admin_dashboard'))
     cursor.execute('select * from leads where id=%s',(id,))
