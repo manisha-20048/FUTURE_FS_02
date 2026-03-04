@@ -1,17 +1,10 @@
 from flask import Flask,request,jsonify,render_template,redirect,url_for,flash,session
 import mysql.connector
-import os
 app=Flask(__name__)
-app.secret_key = os.environ.get("VIRAL_GENERATOR_SECRET")
+app.secret_key='mysecretekey123'
+mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='task3')
+cursor=mydb.cursor(buffered=True)
 
-def get_db_connection():
-    return mysql.connector.connect(
-        host=os.environ.get("MYSQLHOST"),
-        user=os.environ.get("MYSQLUSER"),
-        password=os.environ.get("MYSQLPASSWORD"),
-        database=os.environ.get("MYSQLDATABASE"),
-        port=int(os.environ.get("MYSQLPORT", 3306))
-    )
 
 @app.route('/')
 def welcome():
@@ -197,6 +190,5 @@ def logout():
            flash('First login to Logout')
            return redirect(url_for('admin_login'))
     return render_template('logout.html')
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=True)
