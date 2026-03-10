@@ -23,8 +23,6 @@ def register():
             name=request.form['username']
             email=request.form['email']
             password=request.form['password']
-            #conn = get_db_connection()
-            #cursor = conn.cursor()
             sql="insert into admins (name,email,password) values (%s,%s,%s)"
             values=(name,email,password)
             cursor.execute(sql,values)
@@ -41,8 +39,6 @@ def admin_login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        #conn = get_db_connection()
-        #cursor = conn.cursor()
         sql = "SELECT * FROM admins WHERE email=%s AND password=%s"
         cursor.execute(sql, (email, password))
         admin = cursor.fetchone()
@@ -63,8 +59,6 @@ def user_register():
             name=request.form['username']
             email=request.form['email']
             password=request.form['password']
-            #conn = get_db_connection()
-            #cursor = conn.cursor()
             sql="insert into users (name,email,password) values (%s,%s,%s)"
             values=(name,email,password)
             cursor.execute(sql,values)
@@ -79,7 +73,6 @@ def user_login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        #conn = get_db_connection()
         cursor = mydb.cursor()
         sql = "SELECT * FROM users WHERE email=%s AND password=%s"
         cursor.execute(sql, (email, password))
@@ -107,12 +100,9 @@ def contract():
             phone=request.form['phone']
             source=request.form['source']
             message=request.form['message']
-            #conn = get_db_connection()
-            #cursor = conn.cursor()
             sql="insert into leads (name,email,phone,message,source) values (%s,%s,%s,%s,%s)"
             values=(name,email,phone,message,source)
             cursor.execute(sql,values)
-            #user=cursor.fetchone()
             mydb.commit()
             flash('Data submitted successfully')
             
@@ -125,8 +115,6 @@ def admin_dashboard():
     if 'admin' not in session:
         flash('Please login first')
         return redirect(url_for('admin_login'))
-    #conn = get_db_connection()
-    #cursor = conn.cursor()
     search = request.args.get('search')
     cursor=mydb.cursor()
     if search:
@@ -159,8 +147,6 @@ def admin_dashboard():
         converted=converted)
 @app.route('/delete/<int:id>')
 def delete_lead(id):
-    #conn = get_db_connection()
-    #cursor = conn.cursor()
     cursor=mydb.cursor()
     cursor.execute('delete from leads where id=%s',(id,))
     mydb.commit()
@@ -168,7 +154,6 @@ def delete_lead(id):
     return redirect(url_for('admin_dashboard')) 
 @app.route('/edit/<int:id>',methods=['GET','POST'])
 def edit_lead(id):
-    #conn = get_db_connection()
     cursor = mydb.cursor()
     if request.method=='POST':
         name=request.form['name']
