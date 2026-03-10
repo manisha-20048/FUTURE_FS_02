@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contact form</title>
+    <link rel="stylesheet" href="/static/form.css"
+</head>
+<body>
+    <section class="back">
+    <form action="/contract" class="form" method="POST" >
+       
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+               {% for message in messages %}
+                 <p style="color:green; font-weight:bold ;"><center style="font-weight: bold;color:red;">{{ message }}</center></p>
+               {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1>Contact Form</h1>
+        <label>Name</label>
+        <input type="text" name="name" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
+        <label>Phno</label>
+        <input type="numbers" name="phone" required>
+        <label>Message</label>
+        <textarea name="message"></textarea>
+        <label>Source</label>
+        <!-- <input type="text" name="source" required> -->
+         <select name="source">
+    <option value="Instagram">Instagram</option>
+    <option value="Website">Website</option>
+    <option value="Others">Others</option>
+</select>
+        <button type="submit">Submit</button>
+    </form>
+    </section>
+</body>
+</html>
