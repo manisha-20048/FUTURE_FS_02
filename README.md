@@ -5,4 +5,4 @@
 - Admin Access: Only the admin can view the submitted contact information.
 - Data Management: Admin can manage and track user inquiries.
 
-github repo link:-https://github.com/manisha-20048/FUTURE_FS_02
+github repository :-https://github.com/manisha-20048/FUTURE_FS_02
