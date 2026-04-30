@@ -15,7 +15,7 @@ cursor=mydb.cursor(buffered=True)
 
 @app.route('/')
 def Welcome():
-    return render_template('welcome.html')
+    return render_template('Welcome.html')
 @app.route('/adminpage')
 def admin_page():
     return render_template('admin_page.html')
