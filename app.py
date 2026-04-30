@@ -3,7 +3,11 @@ import mysql.connector
 import os
 app=Flask(__name__)
 app.secret_key='mysecretekey123'
-mydb=mysql.connector.connect(host='localhost',user='root',password='admin',database='mini_crm ')
+mydb=mysql.connector.connect( host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME"),
+    port=int(os.getenv("DB_PORT")))
 cursor=mydb.cursor(buffered=True)
 
 
@@ -192,4 +196,4 @@ def logout():
            return redirect(url_for('admin_login'))
     return render_template('logout.html')
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    app.run()
